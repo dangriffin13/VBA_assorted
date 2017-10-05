@@ -1,0 +1,65 @@
+Sub compare_benchmarks()
+
+Dim IbexRtn As Double
+Dim i As Integer
+Dim ibexCt As Integer
+Dim pbCt As Integer
+Dim target As Integer
+
+ibexCt = Sheets("Period Cum Returns").Range("H1000000").End(xlUp).Row
+Debug.Print ibexCt
+
+pbCt = Sheets("Xamin April Cum").Range("J1000000").End(xlUp).Row
+Debug.Print pbCt
+
+'start looping through Ibex's list
+i = 2
+Do While i < ibexCt
+    
+    IbexRtn = Sheets("Period Cum Returns").Range("H" & i).Value
+    Debug.Print "IbexRtn"; IbexRtn
+    
+    'Check if Ibex rtn at min of PB range
+    If IbexRtn < Sheets("Xamin April Cum").Range("J4").Value Then
+        'Check the first three
+        Sheets("Period Cum Returns").Range("J" & i).Value = Sheets("Xamin April Cum").Range("H2").Value
+        Sheets("Period Cum Returns").Range("K" & i).Value = Sheets("Xamin April Cum").Range("J2").Value
+        Sheets("Period Cum Returns").Range("L" & i).Value = Sheets("Xamin April Cum").Range("H3").Value
+        Sheets("Period Cum Returns").Range("M" & i).Value = Sheets("Xamin April Cum").Range("J3").Value
+        Sheets("Period Cum Returns").Range("N" & i).Value = Sheets("Xamin April Cum").Range("H4").Value
+        Sheets("Period Cum Returns").Range("O" & i).Value = Sheets("Xamin April Cum").Range("J4").Value
+    
+    'Check if at max of range
+    ElseIf IbexRtn > Sheets("Xamin April Cum").Range("J" & pbCt - 2).Value Then
+        'Check the last three
+        Sheets("Period Cum Returns").Range("J" & i).Value = Sheets("Xamin April Cum").Range("H" & pbCt).Value
+        Sheets("Period Cum Returns").Range("K" & i).Value = Sheets("Xamin April Cum").Range("J" & pbCt).Value
+        Sheets("Period Cum Returns").Range("L" & i).Value = Sheets("Xamin April Cum").Range("H" & pbCt - 1).Value
+        Sheets("Period Cum Returns").Range("M" & i).Value = Sheets("Xamin April Cum").Range("J" & pbCt - 1).Value
+        Sheets("Period Cum Returns").Range("N" & i).Value = Sheets("Xamin April Cum").Range("H" & pbCt - 2).Value
+        Sheets("Period Cum Returns").Range("O" & i).Value = Sheets("Xamin April Cum").Range("J" & pbCt - 2).Value
+
+    'loop until the return is greater
+    Else: j = 2
+        Do Until IbexRtn < Sheets("Xamin April Cum").Range("J" & j).Value
+            j = j + 1
+        Loop
+        Debug.Print "j"; j
+        
+        'print surrounding indexes
+        Sheets("Period Cum Returns").Range("J" & i).Value = Sheets("Xamin April Cum").Range("H" & j - 1).Value
+        Sheets("Period Cum Returns").Range("K" & i).Value = Sheets("Xamin April Cum").Range("J" & j - 1).Value
+        Sheets("Period Cum Returns").Range("L" & i).Value = Sheets("Xamin April Cum").Range("H" & j).Value
+        Sheets("Period Cum Returns").Range("M" & i).Value = Sheets("Xamin April Cum").Range("J" & j).Value
+        Sheets("Period Cum Returns").Range("N" & i).Value = Sheets("Xamin April Cum").Range("H" & j + 1).Value
+        Sheets("Period Cum Returns").Range("O" & i).Value = Sheets("Xamin April Cum").Range("J" & j + 1).Value
+        Sheets("Period Cum Returns").Range("P" & i).Value = Sheets("Xamin April Cum").Range("H" & j + 2).Value
+        Sheets("Period Cum Returns").Range("Q" & i).Value = Sheets("Xamin April Cum").Range("J" & j + 2).Value
+    
+
+    End If
+    
+Loop
+
+
+End Sub
